@@ -6,18 +6,30 @@ import (
 	"time"
 )
 
-// kita buat function
 func RunHelloWorld() {
 	fmt.Println("Hello World")
 }
 
-// kita buat sebuah Test
 func TestHelloWorld(t *testing.T) {
-	// misal kita ingin menjalankan function RunHelloWorld di dalam Goroutine (artinya kita jalankan secara Asynchronous), cukup gunakan keyword go
-	// jadi disini kita running 2 process yakni Goroutine dan program bisa
 	go RunHelloWorld()
 	fmt.Println("Program Biasa")
-
-	// kita tunggu sampai program diatas selesai dijalankan, dengan Sleep
 	time.Sleep(1 * time.Second)
+}
+
+// kita akan mencoba membuat goroutine sebanyak 100000
+func DisplayNumber(number int) {
+	fmt.Println("This Display Number", number)
+}
+
+// bikin test untuk membuat banyak goroutine
+func TestManyGoroutine(t *testing.T) {
+
+	// kita buat goroutine sebanyak perulangan
+	// ingat jika running di goroutine maka secara asynchronous
+	// dan karena multicore, maka dia running secara concurrent dan parallel
+	for i := 0; i < 100000; i++ {
+		go DisplayNumber(i)
+	}
+
+	time.Sleep(5 * time.Second)
 }
