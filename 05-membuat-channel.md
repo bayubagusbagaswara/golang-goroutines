@@ -14,3 +14,9 @@
 
 - Dalam kenyataan pembuatan aplikasi, seringnya kita akan `mengirim channel ke function lain via parameter`
 - Sebelumnya kita tahu bahkan di Go-Lang by default, `parameter adalah pass by value`, artinya value akan diduplikasi kemudian baru dikirim ke function parameter (tidak merubah value aslinya atau reference). Sehingga jika kita ingin mengirim data asli, maka kita biasa gunakan `pointer (agar pass by reference)`
+
+## Channel In dan Out
+
+- Saat kita mengirim channel sebagai parameter, isi function tersebut bisa mengirim dan menerima data dari channel tersebut
+- Kadang kita ingin memberi tahu terhadap function, misalnya bahwa channel tersebut hanya digunakan untuk mengirim data, atau hanya dapat digunakan untuk menerima data
+- Hal ini bisa kita lakukan di parameter dengan cara `menandai` apakah channel ini digunakan untuk `in (mengirim data)` atau `out (menerima data)`
