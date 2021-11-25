@@ -82,3 +82,24 @@ func TestInOutChannel(t *testing.T) {
 
 	time.Sleep(5 * time.Second)
 }
+
+// kita buat function buffered channel
+func TestBufferedChannel(t *testing.T) {
+
+	channel := make(chan string, 3) // kita tentukan kapasitas antrian untuk buffered channel
+
+	defer close(channel)
+
+	// kita kirimkan data ke channel, kita bisa mengirim 3 data ke dalam buffer
+	channel <- "Bayu"
+	channel <- "Bagus"
+	channel <- "Bagaswara"
+
+	// kita coba ambil semua data dari channel
+	fmt.Println(<-channel)
+	fmt.Println(<-channel)
+	fmt.Println(<-channel)
+
+	fmt.Println("Selesai")
+
+}
