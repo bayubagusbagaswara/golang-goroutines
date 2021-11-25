@@ -32,3 +32,29 @@ func TestCreateChannel(t *testing.T) {
 	close(channel)
 
 }
+
+// kita bikin function dimana parameternya adalah channel
+func GiveMeResponse(channel chan string) {
+	time.Sleep(2 * time.Second)
+	// kirimkan data ke channel
+	channel <- "Bayu Bagus Bagaswara"
+
+}
+
+// kita buat test untuk channel
+func TestChannelAsParameter(t *testing.T) {
+
+	// buat channel
+	channel := make(chan string)
+	defer close(channel)
+
+	// kita kirimkan channelnya ke function GiveMeResponse
+	go GiveMeResponse(channel)
+
+	// kita terima data dari channel yang dihasilkan GiveMeResponse
+	data := <-channel
+	fmt.Println(data)
+
+	time.Sleep(5 * time.Second)
+
+}
