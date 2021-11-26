@@ -2,6 +2,7 @@ package golanggoroutines
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -101,5 +102,25 @@ func TestBufferedChannel(t *testing.T) {
 	fmt.Println(<-channel)
 
 	fmt.Println("Selesai")
+}
 
+// kita buat channel
+func TestRangeChannel(t *testing.T) {
+	channel := make(chan string)
+
+	// kita kirim data ke channel dari goroutine
+	go func() {
+		// misal kita mengirim data ke channel sebanyak 10 kali
+		for i := 0; i < 10; i++ {
+			channel <- "Perulangan ke " + strconv.Itoa(i)
+		}
+		// setelah 10 kali, maka kita close channel nya (agar perulangannya juga berhenti)
+		close(channel)
+	}()
+
+	// ambil data dari channel, menggunakan range, karena kita tidak tau jumlah data yang dikirimkan ke channel, sehingga kita pake range, agar secara otomatis semua data yang dikirim ke channel akan kita ambil
+	for data := range channel {
+		fmt.Println("Menerima data", data)
+	}
+	fmt.Println("Selesai")
 }
