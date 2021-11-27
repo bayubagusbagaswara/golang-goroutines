@@ -29,3 +29,50 @@ func TestMutex(t *testing.T) {
 	time.Sleep(5 * time.Second)
 	fmt.Println("Counter = ", x)
 }
+
+// buat struct BankAccount
+type BankAccount struct {
+	// bikin variable RWMutex
+	RWMutex sync.RWMutex
+	Balance int
+}
+
+// buat method struct AddBalance
+func (account *BankAccount) AddBalance(amount int) {
+	// kita lock dulu untuk Write
+	account.RWMutex.Lock()
+	// ubah data balance
+	account.Balance = account.Balance + amount
+	// unlock untuk Write
+	account.RWMutex.Unlock()
+}
+
+// buat method struct GetBalance
+func (account *BankAccount) GetBalance() int {
+	// lock untuk Read
+	account.RWMutex.RLock()
+	// baca data balance di account
+	balance := account.Balance
+	// unlock untuk Read
+	account.RWMutex.RUnlock()
+	return balance
+}
+
+// buat test untuk RWMutex
+func TestRWMutex(t *testing.T) {
+	account := BankAccount{}
+
+	for i := 0; i < 100; i++ {
+		// running goroutine
+		go func() {
+			for j := 0; j < 100; j++ {
+				// harusnya totalnya 10000
+				account.AddBalance(1)
+				fmt.Println(account.GetBalance())
+			}
+		}()
+	}
+
+	time.Sleep(5 * time.Second)
+	fmt.Println("Total Balance", account.GetBalance())
+}
